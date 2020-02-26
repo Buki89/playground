@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import RestaurantFinder from "./components/RestaurantFinder";
-import Header from "./components/Header";
+import HomePage from "./components/HomePage";
+import { Provider } from "react-redux";
+import store from "./store/index";
 
 const App = () => (
-  <div>
-    <Header />
-    <RestaurantFinder />
-  </div>
+  <Provider store={store}>
+    <HomePage />
+  </Provider>
 );
 
 ReactDOM.render(<App />, document.getElementById("root"));
