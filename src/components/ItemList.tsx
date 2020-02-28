@@ -1,11 +1,16 @@
 import React from "react";
 import { dummyData } from "../dummy/data";
 import Item from "./Item";
+import { Result } from "./Dashboard";
 
-const ItemList = () => {
+interface Props {
+  businessData: Array<Result>;
+}
+
+const ItemList = ({ businessData }: Props) => {
   return (
     <>
-      {dummyData.map((item, index) => (
+      {businessData.map((item, index: number) => (
         <div key={index}>
           <Item item={item} />
         </div>

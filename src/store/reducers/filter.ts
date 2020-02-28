@@ -1,18 +1,16 @@
-import { FilterActions, Actions } from "../../lib/types";
-
-interface FilterState {
-  totalNumber: number;
-}
+import { FilterActions, Actions, FilterState } from "../../lib/types";
 
 const initialState: FilterState = {
-  totalNumber: 0
+  limit: 50,
+  range: 5000
 };
 
 export default (state = initialState, action: Actions) => {
   switch (action.type) {
-    case FilterActions.totalNumber:
-      return { totalNumber: action.payload.totalNumber };
-
+    case FilterActions.limit:
+      return { ...state, limit: action.payload.limit };
+    case FilterActions.range:
+      return { ...state, range: action.payload.range };
     default:
       return state;
   }

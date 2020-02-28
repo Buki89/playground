@@ -12,35 +12,65 @@ const Body = styled.div`
   background: rgb(236, 236, 236);
 `;
 
-const Dashboard = () => {
-  const [results, setResults] = useState([]);
+interface Props {
+  limit: number;
+  range: number;
+}
+export interface Result {
+  name: string;
+  url: string;
+  rating: number;
+  review: number;
+  distance: string;
+}
+
+const Dashboard = ({ limit, range }: Props) => {
+  const [results, setResults] = useState<Array<Result>>([]);
   const { latitude, longitude } = usePosition(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const searchApi = async () => {
     try {
       const response = await yelp.get("/search", {
         params: {
-          limit: 50,
+          limit: limit,
+          radius: range,
           term: "food",
           latitude: latitude,
           longitude: longitude
         }
       });
-      setResults(response.data.businesses);
+      setResults(
+        response.data.businesses.map(
+          (item: any): Result => {
+            return {
+              name: item.name,
+              url: item.image_url,
+              rating: item.rating,
+              review: item.review_count,
+              distance: item.distance
+            };
+          }
+        )
+      );
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
-  // useEffect(() => {
-  //   if (latitude) {
-  //     searchApi();
-  //   }
-  // }, [latitude]);
-  // console.log(results);
-
-  return <Body>{loading ? <div>loading...</div> : <ItemList />}</Body>;
+  useEffect(() => {
+    if (latitude && limit && range) {
+      searchApi();
+    }
+  }, [latitude, limit, range]);
+  console.log(results);
+  console.log(range);
+  console.log(limit);
+  return (
+    <Body>
+      {loading ? <div>loading...</div> : <ItemList businessData={results} />}
+    </Body>
+  );
 };
 
 export default Dashboard;

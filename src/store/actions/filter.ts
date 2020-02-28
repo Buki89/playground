@@ -1,8 +1,15 @@
-import { FilterActions } from "../../lib/types";
+import { FilterActions, Actions } from "../../lib/types";
 
-export const getTotalNumber = (totalNumber: number) => ({
-  type: FilterActions.totalNumber,
+export const setLimit = (limit: number): Actions => ({
+  type: FilterActions.limit,
   payload: {
-    totalNumber
+    limit
+  }
+});
+
+export const setRange = (range: number): Actions => ({
+  type: FilterActions.range,
+  payload: {
+    range
   }
 });

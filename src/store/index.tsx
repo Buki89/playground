@@ -1,5 +1,11 @@
-import { createStore } from "redux";
+import { createStore, compose } from "redux";
 import filter from "../store/reducers/filter";
-const store = createStore(filter);
+import { composeWithDevTools } from "redux-devtools-extension";
+
+const enhancer = compose(composeWithDevTools());
+
+const reducer = filter;
+
+const store = createStore(reducer, enhancer);
 
 export default store;
